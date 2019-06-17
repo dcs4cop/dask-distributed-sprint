@@ -1,0 +1,14 @@
+version: "3.0"
+
+services:
+  dask-distributed-scheduler:
+    build: .
+    ports:
+      - "8786:8786"
+      - "8787:8787"
+    command: >
+      "source activate xcube && dask-scheduler --bokeh-prefix=/daskboard"
+    healthcheck:
+      test: ["CMD", "curl", "localhost:8786"]
+      interval: 30s
+
