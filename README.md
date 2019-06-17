@@ -2,28 +2,27 @@
 
 ## Setup VM
 
-
 Login to the OTC and create a VM using the privete image ```image-dask-v1```. Configure the network 
 using the 'router' ```vpc-dask``` and the security grouop ```sg-dask```.
 
+Starting the VM will start a docker container automatically using the xcube conda environment. 
 
-Starting the VM will start a docker container automatically using the xcube conda environment. However, you will need to login to that server and
-configure whether you start a server or a worker. If you start a worker you will also need to set a port the 
-worker is listening to using the .env file.
+Describe start worker/ schewduler
 
 
 ## Updating VM
 
-To update the xcube version you will need to rebuild the docker image. At this stage, teh image uses teh latest version of xcube. Modify the Dockerfile 
-if you wish a different version.
+To update the xcube version to use in the work or scheduler, you will need to rebuild the docker image. At this stage, the 
+image uses the latest version of xcube. Modify the Dockerfile if you wish to use a different version.
 
+Do the following:
 
 - Start VM
 - Login to VM
-- Go to directory dask-distributed-sprint
+- Go to directory dask-distributed-sprint/docker-[worker/scheduler]
 - Exec: 
+
 ```
-git pull
 docker-compose build
 docker-compose up -d
 ```
