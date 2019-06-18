@@ -4,11 +4,11 @@ services:
   dask-distributed-scheduler:
     build: .
     ports:
-      - "8786:8786"
-      - "8787:8787"
+      - "${SCHEDULER_PORT}:${SCHEDULER_PORT}"
+      - "${BOKEH_PORT}:${BOKEH_PORT}"
     command: >
-      "source activate xcube && dask-scheduler --bokeh-prefix=/daskboard"
+      "source activate xcube && dask-scheduler"
     healthcheck:
-      test: ["CMD", "curl", "localhost:8786"]
+      test: ["CMD", "curl", "localhost:${BOKEH_PORT}"]
       interval: 30s
 
