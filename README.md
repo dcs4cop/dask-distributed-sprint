@@ -50,15 +50,20 @@ For [re-]starting the worker, user the update procedure.
 
 To update or manually starting a scheduler/worker user the sequence below. 
 Modify the Dockerfile if you wish a different xcube version (this proceduer uses xcube version: 'latest').
+=======
+To update the xcube version to use in the work or scheduler, you will need to rebuild the docker image. At this stage, the 
+image uses the latest version of xcube. Modify the Dockerfile if you wish to use a different version.
+>>>>>>> e510ec11b7fab7e5f3011d9e08e9deef37167abc
 
+Do the following:
 
 - Start VM
 - Login to VM
 - Go to directory dask-distributed-sprint
-- CD to dask-worker or dask-scheduler
+- Go to directory dask-distributed-sprint/docker-[worker/scheduler]
 - Exec: 
+
 ```
-git pull
 docker-compose build
 docker-compose up -d
 ```
