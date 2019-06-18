@@ -6,6 +6,7 @@ services:
     ports:
       - "${SCHEDULER_PORT}:${SCHEDULER_PORT}"
       - "${BOKEH_PORT}:${BOKEH_PORT}"
+    restart: always
     command: >
       "source activate xcube && dask-scheduler"
     healthcheck:
