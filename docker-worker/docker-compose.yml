@@ -7,6 +7,7 @@ services:
       - "${WORKER_PORT}:${WORKER_PORT}"
       - "${NANNY_PORT}:${NANNY_PORT}"
       - "${BOKEH_PORT}:${BOKEH_PORT}"
+    restart: always
     command: >
       "source activate xcube && dask-worker --worker-port ${WORKER_PORT} --nanny-port ${NANNY_PORT} --dashboard-address 0.0.0.0:${BOKEH_PORT} ${SCHEDULER_ADDRESS}:${SCHEDULER_PORT}"
     volumes:
