@@ -1,26 +1,61 @@
 # dask-distributed-sprint
 
-## Setup VM
+## Running a Scheduler VM
+
+The scheduler has been installed on a VM called dask-scheduler which uses the basye image dask-scheduler. The 
+scheduler container is started automatically and will expose the ports 8786 (scheduler) and 8787 (bokeh monitor).
+The port 8787 is mapped to the host port 80 and thus accessible from the outside via http. 
+
+The following configuration has been used for the scheduler VM:
+
+- The private image ```image-dask-scheduler-v1```
+- The 'router' ```vpc-dask```
+- The security group ```sg-dask```
+- EIP: ```80.158.2.66```
+
+The scheduler container has been installed using:
+
+- dask-scheduler/Dockerfile
+- [xcube conda environment](https://github.com/dcs4cop/xcube)
+- which uses dask 1.2.2
 
 
-Login to the OTC and create a VM using the privete image ```image-dask-v1```. Configure the network 
-using the 'router' ```vpc-dask``` and the security grouop ```sg-dask```.
+To start docker container use the update procedure below.
 
 
-Starting the VM will start a docker container automatically using the xcube conda environment. However, you will need to login to that server and
-configure whether you start a server or a worker. If you start a worker you will also need to set a port the 
-worker is listening to using the .env file.
+## Running a Worker VM
 
+The worker has been installed on a VM called dask-worer-[number] which uses the base image ```image-dask-worker-v1```. 
+The worker container is started automatically and will expose threeport of range 9000-9100 (worker, nanny, bokeh).
+Teh worker registers itself to the scheduler. When a new worker VM is created, the worker port has to be configured
+and the container restarted.  
+
+The following configuration has been used for the worker VM:
+
+- The private image ```image-dask-worker-v1```
+- The 'router' ```vpc-dask```
+- The security group ```sg-dask```
+- EIP: None. THE VPC router is configured whith SNAT enabled which allows the workers outbound connections
+
+The scheduler itself has been installed using:
+
+- [xcube conda environment](https://github.com/dcs4cop/xcube)
+- which uses dask 1.2.2
+- ports are configured in .env
+
+For [re-]starting the worker, user the update procedure.
 
 ## Updating VM
 
-To update the xcube version you will need to rebuild the docker image. At this stage, teh image uses teh latest version of xcube. Modify the Dockerfile 
-if you wish a different version.
+To update the xcube version you will need to rebuild the docker image. At this stage, the image uses the latest version of xcube. Modify the Dockerfile if you wish a different version.
 
 
 - Start VM
 - Login to VM
 - Go to directory dask-distributed-sprint
+- CD to dask-worker or dask-scheduler
+- If you start/update a worker you may want to change the worker ports in .env. They need to be unique across the 
+  cluster.
 - Exec: 
 ```
 git pull
@@ -31,10 +66,11 @@ docker-compose up -d
 
 ## Configure Reverse proxy
 
-The scheduler VM does not allow to allocate ports 80 and 443 to the daskboard. We, hence, need a reverse proxy to gain public accesst to the whole monitoring infrastructure.
-
-The scheduler VM uses NGINX with the following configuration in ```/etx/ngins/sites-available```. The monitoring site
-will be available  under ```http://80.158.2.66```.
+At this stage the workers cannot be accessed through the bokeh web intgerface on http://80.158.2.66 as the 
+worker are located behind a firewall. If that is need a reverse proxy has to be configures. Below is an
+example how to do that using nginx and its configuration directory ```/etx/ngins/sites-available```. 
+The example shows a reverse proxy to the scheduler bokeh web UI on port 8787. This configuration
+is currently NOT used as the docker maps the bokee port 8787 directoy to the HTTP port 80.
 
 ```
 server {
