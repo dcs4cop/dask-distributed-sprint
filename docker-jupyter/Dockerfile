@@ -2,9 +2,9 @@ FROM quay.io/bcdev/xcube:0.2.0.dev1
 
 MAINTAINER helge.dzierzon@brockmann-consult.de
 
-USER root
+USER root 
 
-ADD ./xcube-dcfs /home/xcube/xcube-dcfs
+ADD ./xcube-dcfs xcube-dcfs
 RUN chown -R xcube.xcube /home/xcube/xcube-dcfs
 
 USER xcube

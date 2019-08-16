@@ -6,6 +6,8 @@ services:
     ports:
       - "${SCHEDULER_PORT}:${SCHEDULER_PORT}"
       - "${BOKEH_PORT}:${BOKEH_PORT}"
+    volumes:
+            - /mnt/efs/data:/data
     restart: always
     command: >
       "source activate xcube && dask-scheduler"
