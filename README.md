@@ -2,6 +2,12 @@
 
 ## EC2 instances
 
+__Note:__
+
+The dask scheduler's, jupyter notebook's and mongodb's public IPs are elastic IPs and therefore don't change on 
+restarting the EC2 instance.
+
+
 | Name                     | Instance ID         | Instance Type | Availability Zone | Instance State | Status Checks     | Alarm Status | Public DNS (IPv4)                                    | IPv4 Public IP |
 |--------------------------|---------------------|---------------|-------------------|----------------|-------------------|--------------|------------------------------------------------------|----------------|
 | dcfs-dask-mongo          | i-0c7d016594e28f27f | t2.medium     | eu-central-1c     | running        | 2/2 checks passed | None         | ec2-3-120-53-215.eu-central-1.compute.amazonaws.com  | 3.120.53.215   |
@@ -13,12 +19,11 @@
 | dcfs-demo-jupyter        | i-037584cb06c89904e | m5a.4xlarge   | eu-central-1c     | running        | 2/2 checks passed | None         | ec2-3-123-65-163.eu-central-1.compute.amazonaws.com  | 3.123.65.163   |
 
 
-## How to (re-)start a worker
-
-Check the status
+## How to restart the jupyter notbook
 
 ```
-cd dask-distributed-sprint/docker_worker
+ssh aws-dask-jupyter
+cd dask-distributed-sprint/docker_jupyter
 docker-compose ps
 ```
 
@@ -31,10 +36,48 @@ docker-compose build
 docker-compose up -d
 ```
 
+## How to start the scheduler
+
+```
+ssh aws-dask-scheduler
+cd dask-distributed-sprint/docker_scheduler
+docker-compose ps
+```
+
+For a clean start (e.g. code or environment vars have changed)
+
+```
+docker-compose kill
+docker-compose rm -f
+docker-compose build
+docker-compose up -d
+```
+
+## How to (re-)start a worker
+
+Check the status
+
+```
+ssh aws-dask-worker[1,2,3,4]
+cd dask-distributed-sprint/docker_worker
+docker-compose ps
+```
+
+For a clean start (e.g. code or environment vars have changed)
+
+```
+docker-compose kill
+docker-compose rm -f
+docker-compose build
+
+docker-compose up -d
+```
+
+
 All necessary environment variables are in ```.env``` Except LOCAL_IP which is set on login in ```.bashrc```.
 
 
-# dask-distributed-sprint
+# dask-distributed-sprint Primary Production
 
 ## Running a Scheduler VM
 
