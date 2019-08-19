@@ -1,0 +1,21 @@
+version: "3.0"
+
+services:
+    eve:
+        image: urbica/eve
+        restart: unless-stopped
+        environment:
+            - MONGO_URI=mongodb://mongodb/db
+        ports:
+            - 80:5000
+        volumes:
+            - ./example.settings.py:/usr/src/app/settings.py
+    mongodb:
+        image: mongo:3.6
+        restart: unless-stopped
+        ports:
+            - "27017:27017"
+        volumes:
+            - data-volume:/data/db
+volumes:
+    data-volume:
