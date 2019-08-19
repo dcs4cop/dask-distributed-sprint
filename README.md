@@ -1,3 +1,39 @@
+# DCFS demo
+
+## EC2 instances
+
+| Name                     | Instance ID         | Instance Type | Availability Zone | Instance State | Status Checks     | Alarm Status | Public DNS (IPv4)                                    | IPv4 Public IP |
+|--------------------------|---------------------|---------------|-------------------|----------------|-------------------|--------------|------------------------------------------------------|----------------|
+| dcfs-dask-mongo          | i-0c7d016594e28f27f | t2.medium     | eu-central-1c     | running        | 2/2 checks passed | None         | ec2-3-120-53-215.eu-central-1.compute.amazonaws.com  | 3.120.53.215   |
+| dcfs-dask-worker1        | i-01d8df58dffac1257 | m5a.4xlarge   | eu-central-1c     | running        | 2/2 checks passed | None         | ec2-3-122-99-186.eu-central-1.compute.amazonaws.com  | 3.122.99.186   |
+| dcfs-dask-worker2        | i-08d74285816c954e5 | m5a.4xlarge   | eu-central-1c     | running        | 2/2 checks passed | None         | ec2-18-197-164-4.eu-central-1.compute.amazonaws.com  | 18.197.164.4   |
+| dcfs-dask-worker3        | i-0a09e01e4207f342f | m5a.4xlarge   | eu-central-1c     | running        | 2/2 checks passed | None         | ec2-3-120-145-89.eu-central-1.compute.amazonaws.com  | 3.120.145.89   |
+| dcfs-dask-worker4        | i-069d25df87a475799 | m5a.4xlarge   | eu-central-1c     | running        | 2/2 checks passed | None         | ec2-35-158-100-79.eu-central-1.compute.amazonaws.com | 35.158.100.79  |
+| dcfs-demo-dask-scheduler | i-0026ca9337838073b | t2.medium     | eu-central-1c     | running        | 2/2 checks passed | None         | ec2-52-58-160-50.eu-central-1.compute.amazonaws.com  | 52.58.160.50   |
+| dcfs-demo-jupyter        | i-037584cb06c89904e | m5a.4xlarge   | eu-central-1c     | running        | 2/2 checks passed | None         | ec2-3-123-65-163.eu-central-1.compute.amazonaws.com  | 3.123.65.163   |
+
+
+## How to (re-)start a worker
+
+Check the status
+
+```
+cd dask-distributed-sprint/docker_worker
+docker-compose ps
+```
+
+For a clean start (e.g. code or environment vars have changed)
+
+```
+docker-compose kill
+docker-compose rm -f
+docker-compose build
+docker-compose up -d
+```
+
+All necessary environment variables are in ```.env``` Except LOCAL_IP which is set on login in ```.bashrc```.
+
+
 # dask-distributed-sprint
 
 ## Running a Scheduler VM
