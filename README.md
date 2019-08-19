@@ -1,5 +1,14 @@
 # DCFS demo
 
+## Use the dask cluster
+
+Put the following statement at the top of your Python script:
+
+```
+from dask.distributed import Client
+client = Client("52.58.160.50:8786")
+```
+
 ## EC2 instances
 
 __Note:__
