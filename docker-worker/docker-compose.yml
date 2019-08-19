@@ -9,7 +9,7 @@ services:
       - "${BOKEH_PORT}:${BOKEH_PORT}"
     restart: always
     command: >
-            "source activate xcube && dask-worker --listen-address 'tcp://0.0.0.0:${WORKER_PORT}'  --nanny-port ${NANNY_PORT} --dashboard-address 0.0.0.0:${BOKEH_PORT} ${SCHEDULER_ADDRESS}:${SCHEDULER_PORT}  --contact-address 'tcp://${PUBLIC_IP}:${WORKER_PORT}'"
+            "source activate xcube && dask-worker --listen-address 'tcp://0.0.0.0:${WORKER_PORT}'  --nanny-port ${NANNY_PORT} --dashboard-address 0.0.0.0:${BOKEH_PORT} ${SCHEDULER_ADDRESS}:${SCHEDULER_PORT}  --contact-address 'tcp://${LOCAL_IP}:${WORKER_PORT}'"
     volumes:
       - /mnt/efs/data:/data
     healthcheck:
